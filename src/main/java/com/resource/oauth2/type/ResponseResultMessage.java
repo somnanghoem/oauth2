@@ -6,7 +6,11 @@ public enum ResponseResultMessage {
 
     SUCCESS ( "0000", "Success"),
     GENERAL_SYSTEM_ERROR( "9999", "General system error"),
-    USER_NOT_FOUND( "0002", "User information not found");
+    USER_NOT_FOUND( "0002", "User information not found"),
+    USER_NAME_EMPTY( "0003", "User name cannot be empty or null"),
+    PASSWORD_EMPTY( "0004", "Password cannot be empty or null"),
+    INVALID_PASSWORD( "0005", "Invalid password"),
+    REGISTER_TOKEN_ERROR( "0006", "Register user token information error");
 
     ResponseResultMessage(String value, String description) {
         this.value = value;

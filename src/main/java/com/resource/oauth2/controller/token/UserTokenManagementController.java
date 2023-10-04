@@ -3,7 +3,7 @@ package com.resource.oauth2.controller.token;
 
 import com.resource.oauth2.dto.token.GenerateUserTokenRequst;
 import com.resource.oauth2.dto.token.GenerateUserTokenResponse;
-import com.resource.oauth2.security.TokenGenerator;
+import com.resource.oauth2.service.GenerateUserTokenService;
 import com.resource.oauth2.type.ResponseResultMessage;
 import com.resource.oauth2.util.RequestData;
 import com.resource.oauth2.util.ResponseData;
@@ -17,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/v1/token")
-public class TokenManagementController {
+public class UserTokenManagementController {
 
     @Autowired
-    TokenGenerator tokenGenerator;
+    GenerateUserTokenService generateUserTokenService;
 
     @PostMapping(value = "")
     public ResponseEntity generateUserToken(@RequestBody RequestData<GenerateUserTokenRequst> requestData ) {
@@ -29,8 +29,7 @@ public class TokenManagementController {
         GenerateUserTokenResponse body = new GenerateUserTokenResponse();
         try {
             GenerateUserTokenRequst generateUserTokenRequst = requestData.getBody();
-            String token = tokenGenerator.generateAccessToken(generateUserTokenRequst);
-            body.setToken(token);
+            body = generateUserTokenService.generateUserTokenInfo(generateUserTokenRequst);
         } catch ( Exception e ) {
             e.printStackTrace();
             body = new GenerateUserTokenResponse();
