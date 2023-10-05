@@ -6,7 +6,7 @@ import com.resource.oauth2.dto.token.GenerateUserTokenRequst;
 import com.resource.oauth2.dto.token.GenerateUserTokenResponse;
 import com.resource.oauth2.security.TokenGenerator;
 import com.resource.oauth2.service.GenerateUserTokenService;
-import com.resource.oauth2.type.ResponseResultMessage;
+import com.resource.oauth2.type.language.ResponseResultMessageEnglish;
 import com.resource.oauth2.util.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +47,15 @@ public class GenerateUserTokenServiceImpl implements GenerateUserTokenService {
 
     private void validationRequestData( GenerateUserTokenRequst requestParam ) throws Exception {
         if (StringUtils.isBlank(requestParam.getUserName()) || StringUtils.isEmpty(requestParam.getUserName())){
-            throw new Exception(ResponseResultMessage.USER_NAME_EMPTY.getValue());
+            throw new Exception(ResponseResultMessageEnglish.USER_NAME_EMPTY.getValue());
         }else if (StringUtils.isBlank(requestParam.getPassword()) || StringUtils.isEmpty(requestParam.getPassword())){
-            throw new Exception(ResponseResultMessage.PASSWORD_EMPTY.getValue());
+            throw new Exception(ResponseResultMessageEnglish.PASSWORD_EMPTY.getValue());
         }
         // Validate User Information
         if ( !"somnang".equals(requestParam.getUserName())){
-            throw new Exception( ResponseResultMessage.USER_NOT_FOUND.getValue() );
+            throw new Exception( ResponseResultMessageEnglish.USER_NOT_FOUND.getValue() );
         } else if ( !"12345678".equals(requestParam.getPassword())) {
-            throw new Exception( ResponseResultMessage.INVALID_PASSWORD.getValue() );
+            throw new Exception( ResponseResultMessageEnglish.INVALID_PASSWORD.getValue() );
         }
     }
 
@@ -110,7 +110,7 @@ public class GenerateUserTokenServiceImpl implements GenerateUserTokenService {
         return  tokenResponse;
         } catch ( Exception e ) {
             e.printStackTrace();
-            throw new Exception( ResponseResultMessage.REGISTER_TOKEN_ERROR.getValue() );
+            throw new Exception( ResponseResultMessageEnglish.REGISTER_TOKEN_ERROR.getValue() );
         }
     }
 

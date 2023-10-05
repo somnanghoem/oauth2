@@ -1,8 +1,8 @@
-package com.resource.oauth2.type;
+package com.resource.oauth2.type.language;
 
 import com.resource.oauth2.util.ResponseHeader;
 
-public enum ResponseResultMessage {
+public enum ResponseResultMessageEnglish {
 
     SUCCESS ( "0000", "Success"),
     GENERAL_SYSTEM_ERROR( "9999", "General system error"),
@@ -12,9 +12,12 @@ public enum ResponseResultMessage {
     INVALID_PASSWORD( "0005", "Invalid password"),
     REGISTER_TOKEN_ERROR( "0006", "Register user token information error"),
     TOKEN_NOT_FOUND( "0007", "Not found token info"),
-    TOKEN_EXPIRED( "0008", "Token has been expired");
+    TOKEN_EXPIRED( "0008", "Token has been expired"),
+    USER_TYPE_EMPTY ( "0009", "User type cannot be empty or expired"),
+    INVALID_USER_TYPE( "0010", "Invalid user type"),
+    MASTER_USER_NAME_EMPTY ( "0011", "Master user name cannot be empty or null");
 
-    ResponseResultMessage(String value, String description) {
+    ResponseResultMessageEnglish(String value, String description) {
         this.value = value;
         this.description = description;
     }
@@ -30,10 +33,10 @@ public enum ResponseResultMessage {
         return description;
     }
 
-    private static ResponseResultMessage getResultMessageInfo( String value ) {
-        ResponseResultMessage resultConst = null;
+    private static ResponseResultMessageEnglish getResultMessageInfo(String value ) {
+        ResponseResultMessageEnglish resultConst = null;
         if ( value != null ) {
-            for ( ResponseResultMessage searchConst : values() ) {
+            for ( ResponseResultMessageEnglish searchConst : values() ) {
                 if ( searchConst.getValue().equals( value ) ) {
                     resultConst = searchConst;
                     break;
@@ -43,9 +46,9 @@ public enum ResponseResultMessage {
         return resultConst;
     }
 
-    public static ResponseHeader resultOuputMessage(Exception e ) {
+    public static ResponseHeader resultOutputMessage(Exception e ) {
         ResponseHeader header = new ResponseHeader();
-        ResponseResultMessage resultMessageInfo = null;
+        ResponseResultMessageEnglish resultMessageInfo = null;
         if ( e.getMessage().length() > 4 ) {
             resultMessageInfo = getResultMessageInfo( "9999" );
         } else {
