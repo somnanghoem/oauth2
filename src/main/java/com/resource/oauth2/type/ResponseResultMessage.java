@@ -10,7 +10,9 @@ public enum ResponseResultMessage {
     USER_NAME_EMPTY( "0003", "User name cannot be empty or null"),
     PASSWORD_EMPTY( "0004", "Password cannot be empty or null"),
     INVALID_PASSWORD( "0005", "Invalid password"),
-    REGISTER_TOKEN_ERROR( "0006", "Register user token information error");
+    REGISTER_TOKEN_ERROR( "0006", "Register user token information error"),
+    TOKEN_NOT_FOUND( "0007", "Not found token info"),
+    TOKEN_EXPIRED( "0008", "Token has been expired");
 
     ResponseResultMessage(String value, String description) {
         this.value = value;

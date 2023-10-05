@@ -86,41 +86,25 @@ public class GenerateUserTokenServiceImpl implements GenerateUserTokenService {
             }
             // Process Update User Token Info
             else {
-                SimpleDateFormat sdDate = new SimpleDateFormat(DateUtil.DATE);
-                SimpleDateFormat sdTime = new SimpleDateFormat(DateUtil.TIME);
-                Date expiredDate = sdDate.parse( userTokenInfo.getExpiredDate() ) ;
-                Date expiredTime = sdTime.parse(userTokenInfo.getExpiredTime());
-                Date currentDate = sdDate.parse(DateUtil.getCurrentFormatDate(DateUtil.DATE));
-                Date currentTime = sdTime.parse(DateUtil.getCurrentFormatDate(DateUtil.TIME));
-                // In case not yet expired date
-                if ( expiredDate.compareTo(currentDate) > 0 ) {
+                SimpleDateFormat sdDate = new SimpleDateFormat(DateUtil.DATETIME);
+                Date expiredDateTime = sdDate.parse( userTokenInfo.getExpiredDate().concat(userTokenInfo.getExpiredTime()) ) ;
+                Date currentDateTime = sdDate.parse(DateUtil.getCurrentFormatDate(DateUtil.DATETIME));
+                if (( expiredDateTime.compareTo(currentDateTime) <=0)) {
+                    tokenResponse = tokenGenerator.generateAccessToken(requestParam);
+                    registerUserInfo = userTokenInfo;
+                    registerUserInfo.setUserName( requestParam.getUserName() );
+                    registerUserInfo.setToken( tokenResponse.getToken() );
+                    registerUserInfo.setIssuedDate( tokenResponse.getIssuedDate() );
+                    registerUserInfo.setIssuedTime( tokenResponse.getIssuedTime() );
+                    registerUserInfo.setExpiredDate( tokenResponse.getExpiredDate() );
+                    registerUserInfo.setExpiredTime( tokenResponse.getExpiredTime() );
+                    userTokenInfoDAO.updateUserTokenInfo(registerUserInfo);
+                } else {
                     tokenResponse.setToken(userTokenInfo.getToken());
                     tokenResponse.setIssuedDate(userTokenInfo.getIssuedDate());
                     tokenResponse.setIssuedTime(userTokenInfo.getIssuedTime());
                     tokenResponse.setExpiredDate(userTokenInfo.getExpiredDate());
                     tokenResponse.setExpiredTime(userTokenInfo.getExpiredTime());
-                }
-                else {
-                    // In Time Case Expired
-                    if ( expiredTime.compareTo(currentTime)<=0 ){
-                        tokenResponse = tokenGenerator.generateAccessToken(requestParam);
-                        registerUserInfo = userTokenInfo;
-                        registerUserInfo.setUserName( requestParam.getUserName() );
-                        registerUserInfo.setToken( tokenResponse.getToken() );
-                        registerUserInfo.setIssuedDate( tokenResponse.getIssuedDate() );
-                        registerUserInfo.setIssuedTime( tokenResponse.getIssuedTime() );
-                        registerUserInfo.setExpiredDate( tokenResponse.getExpiredDate() );
-                        registerUserInfo.setExpiredTime( tokenResponse.getExpiredTime() );
-                        userTokenInfoDAO.updateUserTokenInfo(registerUserInfo);
-                    }
-                    // In Case Time Not Yet Expired
-                    else {
-                        tokenResponse.setToken(userTokenInfo.getToken());
-                        tokenResponse.setIssuedDate(userTokenInfo.getIssuedDate());
-                        tokenResponse.setIssuedTime(userTokenInfo.getIssuedTime());
-                        tokenResponse.setExpiredDate(userTokenInfo.getExpiredDate());
-                        tokenResponse.setExpiredTime(userTokenInfo.getExpiredTime());
-                    }
                 }
             }
         return  tokenResponse;

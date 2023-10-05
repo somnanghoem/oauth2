@@ -1,12 +1,18 @@
 package com.resource.oauth2.security;
 
+import com.resource.oauth2.dao.UserTokenInfoDAO;
+import com.resource.oauth2.dto.UserTokenInfoDTO;
 import com.resource.oauth2.service.CustomUserDetailService;
+import com.resource.oauth2.type.ResponseResultMessage;
+import com.resource.oauth2.util.DateUtil;
+import com.resource.oauth2.util.RenderUtil;
+import com.resource.oauth2.util.ResponseData;
+import com.resource.oauth2.util.ResponseHeader;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,32 +22,52 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
-import java.util.Base64;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Component
 public class JwtTokenFilter extends OncePerRequestFilter {
 
     @Autowired
+    UserTokenInfoDAO userTokenInfoDAO;
+    @Autowired
     CustomUserDetailService customUserDetailService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+
         final String requestTokenHeader = request.getHeader("Authorization");
         String userName = "";
         String token = "";
         if ( requestTokenHeader != null && requestTokenHeader.startsWith("Bearer ") ) {
-            token = requestTokenHeader.substring(7);
-            userName = this.getUserName(token);
-            System.out.println(userName);
+
+           try {
+               token = requestTokenHeader.substring(7);
+               // Validate User Token Info
+               UserTokenInfoDTO userTokenParam = new UserTokenInfoDTO();
+               userTokenParam.setToken(token);
+               UserTokenInfoDTO userTokenInfo = userTokenInfoDAO.retrieveUserTokenInfoByToken(userTokenParam);
+               if ( userTokenInfo == null ) {
+                throw new Exception( ResponseResultMessage.TOKEN_NOT_FOUND.getValue());
+               } else {
+                   userName = userTokenInfo.getUserName();
+                   SimpleDateFormat sdDate = new SimpleDateFormat(DateUtil.DATETIME);
+                   Date expiredDateTime = sdDate.parse( userTokenInfo.getExpiredDate().concat(userTokenInfo.getExpiredTime()) ) ;
+                   Date currentDateTime = sdDate.parse(DateUtil.getCurrentFormatDate(DateUtil.DATETIME));
+                   if (( expiredDateTime.compareTo(currentDateTime) <=0)) {
+                       throw new Exception( ResponseResultMessage.TOKEN_EXPIRED.getValue());
+                   }
+               }
+           } catch ( Exception e ) {
+               ResponseHeader header = ResponseResultMessage.resultOuputMessage(e);
+               RenderUtil.renderJson( response, new ResponseData<>( header, new Object() ) );
+               return;
+           }
         }
 
         //Once we get the token validate it.
         if ( StringUtils.isNoneEmpty( userName ) && SecurityContextHolder.getContext().getAuthentication() == null) {
 
             UserDetails userDetails = this.customUserDetailService.loadUserByUsername( userName );
-            // if token is valid configure Spring Security to manually set authentication
-           /* if (jwtTokenUtil.validateToken( jwtToken, userDetails)) {
-
-            }*/
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
@@ -49,12 +75,4 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    private String getUserName( String token ) {
-        String[] chunks = token.split("\\.");
-        Base64.Decoder decoder = Base64.getUrlDecoder();
-        String payload = new String(decoder.decode(chunks[1]));
-        JSONObject json = new JSONObject(payload);
-        return json.getString("iss");
-
-    }
 }
