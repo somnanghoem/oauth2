@@ -15,7 +15,8 @@ public enum ResponseResultMessageEnglish {
     TOKEN_EXPIRED( "0008", "Token has been expired"),
     USER_TYPE_EMPTY ( "0009", "User type cannot be empty or expired"),
     INVALID_USER_TYPE( "0010", "Invalid user type"),
-    MASTER_USER_NAME_EMPTY ( "0011", "Master user name cannot be empty or null");
+    MASTER_USER_NAME_EMPTY ( "0011", "Master user name cannot be empty or null"),
+    USER_NAME_ALREADY_EXISTING ( "0012", "Username already exists, please choose other user name");
 
     ResponseResultMessageEnglish(String value, String description) {
         this.value = value;

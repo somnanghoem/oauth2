@@ -1,7 +1,5 @@
 package com.resource.oauth2.dto.token;
 
-import com.resource.oauth2.dto.UserTokenScope;
-
 import java.util.ArrayList;
 import java.util.List;
 

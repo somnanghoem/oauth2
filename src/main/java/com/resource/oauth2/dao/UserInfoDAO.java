@@ -9,7 +9,7 @@ public interface UserInfoDAO {
 
     long registerUserInfo(UserInfoDTO param ) throws Exception;
     long updateUserInfo(UserInfoDTO param ) throws Exception;
-    UserInfoDTO retrieveUserInfoByUserName( UserInfoDTO param ) throws  Exception;
+    UserInfoDTO retrieveUserInfo( UserInfoDTO param ) throws  Exception;
     UserInfoDTO retrieveUserInfoByUserNameForUpdate( UserInfoDTO param ) throws Exception;
     List<UserInfoDTO> retrieveListUserInfo( String status ) throws Exception;
 }

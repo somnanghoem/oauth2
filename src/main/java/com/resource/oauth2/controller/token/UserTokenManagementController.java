@@ -4,7 +4,7 @@ package com.resource.oauth2.controller.token;
 import com.resource.oauth2.dto.token.GenerateUserTokenRequst;
 import com.resource.oauth2.dto.token.GenerateUserTokenResponse;
 import com.resource.oauth2.service.GenerateUserTokenService;
-import com.resource.oauth2.type.language.ResponseResultMessage;
+import com.resource.oauth2.service.ResponseResultMessageService;
 import com.resource.oauth2.type.language.ResponseResultMessageEnglish;
 import com.resource.oauth2.util.RequestData;
 import com.resource.oauth2.util.ResponseData;
@@ -22,7 +22,8 @@ public class UserTokenManagementController {
 
     @Autowired
     GenerateUserTokenService generateUserTokenService;
-
+    @Autowired
+    ResponseResultMessageService responseResultMessageService;
     @PostMapping(value = "")
     public ResponseEntity generateUserToken(@RequestBody RequestData<GenerateUserTokenRequst> requestData ) {
 
@@ -34,7 +35,7 @@ public class UserTokenManagementController {
         } catch ( Exception e ) {
             e.printStackTrace();
             body = new GenerateUserTokenResponse();
-            header = ResponseResultMessage.resultLanguageMessage(requestData.getHeader(),e);
+            header = responseResultMessageService.resultLanguageMessage(requestData.getHeader(),e);
         }
         ResponseData<GenerateUserTokenResponse> responseData = new ResponseData<>(header, body);
         return  ResponseEntity.ok( responseData );

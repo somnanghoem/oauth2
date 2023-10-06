@@ -1,13 +1,17 @@
 package com.resource.oauth2.service.impl;
 
+import com.resource.oauth2.dao.UserInfoDAO;
 import com.resource.oauth2.dao.UserTokenInfoDAO;
-import com.resource.oauth2.dto.UserTokenInfoDTO;
+import com.resource.oauth2.dto.token.UserTokenInfoDTO;
 import com.resource.oauth2.dto.token.GenerateUserTokenRequst;
 import com.resource.oauth2.dto.token.GenerateUserTokenResponse;
+import com.resource.oauth2.dto.user.UserInfoDTO;
+import com.resource.oauth2.security.PropertiesPlaceholderConfiguration;
 import com.resource.oauth2.security.TokenGenerator;
 import com.resource.oauth2.service.GenerateUserTokenService;
 import com.resource.oauth2.type.language.ResponseResultMessageEnglish;
 import com.resource.oauth2.util.DateUtil;
+import com.resource.oauth2.util.encryption.Sha256Util;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,9 +26,13 @@ import java.util.Date;
 @Service
 public class GenerateUserTokenServiceImpl implements GenerateUserTokenService {
     @Autowired
+    UserInfoDAO UserInfoDAO;
+    @Autowired
     TokenGenerator tokenGenerator;
     @Autowired
     UserTokenInfoDAO userTokenInfoDAO;
+    @Autowired
+    PropertiesPlaceholderConfiguration config;
     @Autowired
     PlatformTransactionManager platformTransactionManager;
     @Override
@@ -40,6 +48,7 @@ public class GenerateUserTokenServiceImpl implements GenerateUserTokenService {
             platformTransactionManager.commit(transactionStatus);
            return tokenResponse;
         } catch ( Exception e ) {
+            // Rollback transaction
             platformTransactionManager.rollback(transactionStatus);
             throw e;
         }
@@ -52,10 +61,16 @@ public class GenerateUserTokenServiceImpl implements GenerateUserTokenService {
             throw new Exception(ResponseResultMessageEnglish.PASSWORD_EMPTY.getValue());
         }
         // Validate User Information
-        if ( !"somnang".equals(requestParam.getUserName())){
+        UserInfoDTO userParam = new UserInfoDTO();
+        userParam.setUserName(requestParam.getUserName());
+        UserInfoDTO userInfo = UserInfoDAO.retrieveUserInfo(userParam);
+        if ( userInfo == null ) {
             throw new Exception( ResponseResultMessageEnglish.USER_NOT_FOUND.getValue() );
-        } else if ( !"12345678".equals(requestParam.getPassword())) {
-            throw new Exception( ResponseResultMessageEnglish.INVALID_PASSWORD.getValue() );
+        } else {
+            String encryptUserPassword = Sha256Util.encrypt(requestParam.getPassword(), config.getSha256Secret().concat(requestParam.getUserName()));
+            if ( !encryptUserPassword.equals(userInfo.getUserPassword())){
+                throw new Exception( ResponseResultMessageEnglish.INVALID_PASSWORD.getValue() );
+            }
         }
     }
 

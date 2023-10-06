@@ -19,7 +19,7 @@ public class UserInfoDTO {
     private String CreateTime= "";
     private String updateDate= "";
     private String updateTime= "";
-    private String updateBY ="";
+    private String updateBy ="";
 
     public String getUserName() {
         return userName;
@@ -157,12 +157,12 @@ public class UserInfoDTO {
         this.updateTime = updateTime;
     }
 
-    public String getUpdateBY() {
-        return updateBY;
+    public String getUpdateBy() {
+        return updateBy;
     }
 
-    public void setUpdateBY(String updateBY) {
-        this.updateBY = updateBY;
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
     }
 
     @Override
@@ -185,7 +185,7 @@ public class UserInfoDTO {
                 ", CreateTime='" + CreateTime + '\'' +
                 ", updateDate='" + updateDate + '\'' +
                 ", updateTime='" + updateTime + '\'' +
-                ", updateBY='" + updateBY + '\'' +
+                ", updateBY='" + updateBy + '\'' +
                 '}';
     }
 }

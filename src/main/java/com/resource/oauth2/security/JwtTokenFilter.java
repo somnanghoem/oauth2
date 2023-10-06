@@ -1,7 +1,7 @@
 package com.resource.oauth2.security;
 
 import com.resource.oauth2.dao.UserTokenInfoDAO;
-import com.resource.oauth2.dto.UserTokenInfoDTO;
+import com.resource.oauth2.dto.token.UserTokenInfoDTO;
 import com.resource.oauth2.service.CustomUserDetailService;
 import com.resource.oauth2.type.language.ResponseResultMessageEnglish;
 import com.resource.oauth2.util.DateUtil;

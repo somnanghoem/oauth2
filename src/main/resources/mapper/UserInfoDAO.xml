@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.resource.oauth2.dao.UserTokenInfoDAO">
+<mapper namespace="com.resource.oauth2.dao.UserInfoDAO">
 
     <resultMap id="userInfoDTO" type="UserInfoDTO">
         <result column="user_name"              property="userName" />
@@ -23,82 +23,80 @@
         <result column="update_by"              property="updateBY" />
     </resultMap>
 
-    <select id="retrieveUserInfoByUserName" resultType="userInfoDTO">
+    <select id="retrieveUserInfo" resultType="userInfoDTO">
         <![CDATA[
           SELECT
-             user_name
-            ,user_type
-            ,user_status
-            ,user_password
-            ,password_change_date
-            ,password_change_time
-            ,first_login_date
-            ,first_login_time
-            ,last_login_date
-            ,last_login_time
-            ,master_user_name
-            ,employee_id
-            ,create_by
-            ,register_date
-            ,register_time
-            ,update_date
-            ,update_time
-            ,update_by
+             user_name              AS "userName"
+            ,user_type              AS "userType"
+            ,user_status            AS "userStatus"
+            ,user_password          AS "userPassword"
+            ,password_change_date   AS "passwordChangeDate"
+            ,password_change_time   AS "passwordChangeTime"
+            ,first_login_date       AS "firstLoginDate"
+            ,first_login_time       AS "firstLoginTime"
+            ,last_login_date        AS "lastLoginDate"
+            ,last_login_time        AS "lastLoginTime"
+            ,master_user_name       AS "masterUserName"
+            ,employee_id            AS "employeeID"
+            ,create_by              AS "createBy"
+            ,register_date          AS "createDate"
+            ,register_time          AS "CreateTime"
+            ,update_date            AS "updateDate"
+            ,update_time            AS "updateTime"
+            ,update_by              AS "updateBY"
           FROM USER_INFO
           WHERE user_name = #{userName}
-          AND USER_TYPE = #{userType}
-            ]]>
+        ]]>
     </select>
 
     <select id="retrieveUserInfoByUserNameForUpdate" resultType="userInfoDTO">
         <![CDATA[
           SELECT
-             user_name
-            ,user_type
-            ,user_status
-            ,user_password
-            ,password_change_date
-            ,password_change_time
-            ,first_login_date
-            ,first_login_time
-            ,last_login_date
-            ,last_login_time
-            ,master_user_name
-            ,employee_id
-            ,create_by
-            ,register_date
-            ,register_time
-            ,update_date
-            ,update_time
-            ,update_by
+             user_name              AS "userName"
+            ,user_type              AS "userType"
+            ,user_status            AS "userStatus"
+            ,user_password          AS "userPassword"
+            ,password_change_date   AS "passwordChangeDate"
+            ,password_change_time   AS "passwordChangeTime"
+            ,first_login_date       AS "firstLoginDate"
+            ,first_login_time       AS "firstLoginTime"
+            ,last_login_date        AS "lastLoginDate"
+            ,last_login_time        AS "lastLoginTime"
+            ,master_user_name       AS "masterUserName"
+            ,employee_id            AS "employeeID"
+            ,create_by              AS "createBy"
+            ,register_date          AS "createDate"
+            ,register_time          AS "CreateTime"
+            ,update_date            AS "updateDate"
+            ,update_time            AS "updateTime"
+            ,update_by              AS "updateBY"
           FROM USER_INFO
           WHERE user_name = #{userName}
-          AND USER_TYPE = #{userType}
           FOR UPDATE
-         ]]>
+        ]]>
     </select>
 
     <select id="retrieveListUserInfo" resultType="userInfoDTO">
         <![CDATA[
           SELECT
-             user_name
-            ,user_type
-            ,user_status
-            ,user_password
-            ,password_change_date
-            ,password_change_time
-            ,first_login_date
-            ,first_login_time
-            ,last_login_date
-            ,last_login_time
-            ,master_user_name
-            ,employee_id
-            ,create_by
-            ,register_date
-            ,register_time
-            ,update_date
-            ,update_time
-            ,update_by
+             user_name              AS "userName"
+            ,user_type              AS "userType"
+            ,user_status            AS "userStatus"
+            ,user_password          AS "userPassword"
+            ,password_change_date   AS "passwordChangeDate"
+            ,password_change_time   AS "passwordChangeTime"
+            ,first_login_date       AS "firstLoginDate"
+            ,first_login_time       AS "firstLoginTime"
+            ,last_login_date        AS "lastLoginDate"
+            ,last_login_time        AS "lastLoginTime"
+            ,master_user_name       AS "masterUserName"
+            ,employee_id            AS "employeeID"
+            ,create_by              AS "createBy"
+            ,register_date          AS "createDate"
+            ,register_time          AS "CreateTime"
+            ,update_date            AS "updateDate"
+            ,update_time            AS "updateTime"
+            ,update_by              AS "updateBY"
           FROM USER_INFO
           where user_status = #{userStatus}
          ]]>
@@ -140,8 +138,8 @@
                     , COALESCE( #{masterUserName}, '' )
                     , COALESCE( #{employeeID}, '' )
                     , #{createBy}
-                    , #{registerDate}
-                    , #{registerTime}
+                    , #{createDate}
+                    , #{CreateTime}
                     , #{updateDate}
                     , #{updateTime}
                     , #{updateBy}

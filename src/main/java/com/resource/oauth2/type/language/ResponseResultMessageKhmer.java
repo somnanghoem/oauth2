@@ -14,7 +14,8 @@ public enum ResponseResultMessageKhmer {
     TOKEN_EXPIRED( "0008", "Token បានផុតកំណត់ហើយ"),
     USER_TYPE_EMPTY ( "0009", "ប្រភេទអ្នកប្រើប្រាស់មិនអាចទទេបានទេ។"),
     INVALID_USER_TYPE( "0010", "ប្រភេទអ្នកប្រើមិនត្រឹមត្រូវ។"),
-    MASTER_USER_NAME_EMPTY ( "0011", "ឈ្មោះអ្នកប្រើមេមិនអាចទទេបានទេ។");
+    MASTER_USER_NAME_EMPTY ( "0011", "ឈ្មោះអ្នកប្រើមេមិនអាចទទេបានទេ។"),
+    USER_NAME_ALREADY_EXISTING ( "0012", "ឈ្មោះអ្នកប្រើប្រាស់មានរួចហើយ សូមជ្រើសរើសឈ្មោះអ្នកប្រើប្រាស់ផ្សេងទៀត។");
 
     ResponseResultMessageKhmer(String value, String description) {
         this.value = value;
@@ -48,11 +49,16 @@ public enum ResponseResultMessageKhmer {
     public static ResponseHeader resultOutputMessage(Exception e ) {
         ResponseHeader header = new ResponseHeader();
         ResponseResultMessageKhmer resultMessageInfo = null;
-        if ( e.getMessage().length() > 4 ) {
-            resultMessageInfo = getResultMessageInfo( "9999" );
+        if ( e != null ) {
+            if ( e.getMessage().length() > 4 ) {
+                resultMessageInfo = getResultMessageInfo( "9999" );
+            } else {
+                resultMessageInfo = getResultMessageInfo( e.getMessage() );
+            }
         } else {
-            resultMessageInfo = getResultMessageInfo( e.getMessage() );
+            resultMessageInfo = getResultMessageInfo( "9999" );
         }
+
         header.setSuccessYN("N");
         header.setResultCode(resultMessageInfo.getValue());
         header.setResultMessage(resultMessageInfo.getDescription());
