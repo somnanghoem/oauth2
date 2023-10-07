@@ -26,7 +26,7 @@ import java.util.Date;
 @Service
 public class GenerateUserTokenServiceImpl implements GenerateUserTokenService {
     @Autowired
-    UserInfoDAO UserInfoDAO;
+    UserInfoDAO userInfoDAO;
     @Autowired
     TokenGenerator tokenGenerator;
     @Autowired
@@ -63,7 +63,7 @@ public class GenerateUserTokenServiceImpl implements GenerateUserTokenService {
         // Validate User Information
         UserInfoDTO userParam = new UserInfoDTO();
         userParam.setUserName(requestParam.getUserName());
-        UserInfoDTO userInfo = UserInfoDAO.retrieveUserInfo(userParam);
+        UserInfoDTO userInfo = userInfoDAO.retrieveUserInfo(userParam);
         if ( userInfo == null ) {
             throw new Exception( ResponseResultMessageEnglish.USER_NOT_FOUND.getValue() );
         } else {

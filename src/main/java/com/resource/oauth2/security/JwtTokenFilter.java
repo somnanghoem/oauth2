@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
@@ -65,14 +67,17 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                return;
            }
         }
-
-        //Once we get the token validate it.
+        // In case authentication request
         if ( StringUtils.isNoneEmpty( userName ) && SecurityContextHolder.getContext().getAuthentication() == null) {
-
             UserDetails userDetails = this.customUserDetailService.loadUserByUsername( userName );
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-            usernamePasswordAuthenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            SecurityContext context = SecurityContextHolder.createEmptyContext();
+            Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
+            context.setAuthentication(authentication);
+            SecurityContextHolder.setContext(context);
+            /********************************************************************************
+            * Do not use SecurityContextHolder.getContext().setAuthentication(authentication)
+            * to avoid race conditions across multiple threads
+            *********************************************************************************/
         }
 
         filterChain.doFilter(request, response);
