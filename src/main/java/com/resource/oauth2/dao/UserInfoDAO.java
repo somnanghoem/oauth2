@@ -1,6 +1,6 @@
 package com.resource.oauth2.dao;
 
-import com.resource.oauth2.dto.user.UserInfoDTO;
+import com.resource.oauth2.dto.UserInfoDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

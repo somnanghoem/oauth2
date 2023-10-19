@@ -1,6 +1,6 @@
 package com.resource.oauth2.dao;
 
-import com.resource.oauth2.dto.token.UserTokenInfoDTO;
+import com.resource.oauth2.dto.UserTokenInfoDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

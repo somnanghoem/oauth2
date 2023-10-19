@@ -1,7 +1,7 @@
 package com.resource.oauth2.service.impl;
 
 import com.resource.oauth2.dao.UserLogInfoDAO;
-import com.resource.oauth2.dto.userlog.UserErrorLogDTO;
+import com.resource.oauth2.dto.UserErrorLogDTO;
 import com.resource.oauth2.service.UserLogService;
 import com.resource.oauth2.util.DateUtil;
 import com.resource.oauth2.util.RequestHeader;

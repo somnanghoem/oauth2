@@ -1,6 +1,6 @@
 package com.resource.oauth2.dao;
 
-import com.resource.oauth2.dto.userlog.UserErrorLogDTO;
+import com.resource.oauth2.dto.UserErrorLogDTO;
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

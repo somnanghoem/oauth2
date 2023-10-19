@@ -1,4 +1,4 @@
-package com.resource.oauth2.dto.user;
+package com.resource.oauth2.model.user;
 
 public class RegisterUserInfoResponse {
 

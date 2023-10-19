@@ -1,4 +1,4 @@
-package com.resource.oauth2.dto.token;
+package com.resource.oauth2.dto;
 
 public class UserTokenInfoDTO {
 

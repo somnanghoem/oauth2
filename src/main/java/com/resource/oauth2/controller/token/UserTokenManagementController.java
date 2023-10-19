@@ -1,8 +1,8 @@
 package com.resource.oauth2.controller.token;
 
 
-import com.resource.oauth2.dto.token.GenerateUserTokenRequst;
-import com.resource.oauth2.dto.token.GenerateUserTokenResponse;
+import com.resource.oauth2.model.token.GenerateUserTokenRequst;
+import com.resource.oauth2.model.token.GenerateUserTokenResponse;
 import com.resource.oauth2.service.GenerateUserTokenService;
 import com.resource.oauth2.service.ResponseResultMessageService;
 import com.resource.oauth2.type.ResponseResultMessage;

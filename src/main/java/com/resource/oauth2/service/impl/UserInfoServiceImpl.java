@@ -1,8 +1,8 @@
 package com.resource.oauth2.service.impl;
 
 import com.resource.oauth2.dao.UserInfoDAO;
-import com.resource.oauth2.dto.user.RegisterUserInfoRequest;
-import com.resource.oauth2.dto.user.UserInfoDTO;
+import com.resource.oauth2.model.user.RegisterUserInfoRequest;
+import com.resource.oauth2.dto.UserInfoDTO;
 import com.resource.oauth2.security.PropertiesPlaceholderConfiguration;
 import com.resource.oauth2.service.UserInfoService;
 import com.resource.oauth2.type.UserStatusCode;

@@ -1,7 +1,7 @@
 package com.resource.oauth2.service;
 
-import com.resource.oauth2.dto.token.GenerateUserTokenRequst;
-import com.resource.oauth2.dto.token.GenerateUserTokenResponse;
+import com.resource.oauth2.model.token.GenerateUserTokenRequst;
+import com.resource.oauth2.model.token.GenerateUserTokenResponse;
 
 public interface GenerateUserTokenService {
 

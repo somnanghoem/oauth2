@@ -1,4 +1,4 @@
-package com.resource.oauth2.dto.token;
+package com.resource.oauth2.model.token;
 
 import java.util.ArrayList;
 import java.util.List;

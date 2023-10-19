@@ -1,7 +1,7 @@
 package com.resource.oauth2.service;
 
 import com.resource.oauth2.dao.UserInfoDAO;
-import com.resource.oauth2.dto.user.UserInfoDTO;
+import com.resource.oauth2.dto.UserInfoDTO;
 import com.resource.oauth2.security.User;
 import com.resource.oauth2.type.ResponseResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;

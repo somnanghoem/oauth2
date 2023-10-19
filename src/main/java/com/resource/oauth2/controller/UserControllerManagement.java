@@ -1,8 +1,8 @@
 package com.resource.oauth2.controller;
 
-import com.resource.oauth2.dto.user.RegisterUserInfoRequest;
-import com.resource.oauth2.dto.user.RegisterUserInfoResponse;
-import com.resource.oauth2.dto.user.UserInfoDTO;
+import com.resource.oauth2.model.user.RegisterUserInfoRequest;
+import com.resource.oauth2.model.user.RegisterUserInfoResponse;
+import com.resource.oauth2.dto.UserInfoDTO;
 import com.resource.oauth2.service.UserInfoService;
 import com.resource.oauth2.service.ResponseResultMessageService;
 import com.resource.oauth2.type.ResponseResultMessage;

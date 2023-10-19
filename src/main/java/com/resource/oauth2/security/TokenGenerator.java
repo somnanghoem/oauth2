@@ -1,7 +1,7 @@
 package com.resource.oauth2.security;
 
-import com.resource.oauth2.dto.token.GenerateUserTokenRequst;
-import com.resource.oauth2.dto.token.GenerateUserTokenResponse;
+import com.resource.oauth2.model.token.GenerateUserTokenRequst;
+import com.resource.oauth2.model.token.GenerateUserTokenResponse;
 import com.resource.oauth2.util.DateUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

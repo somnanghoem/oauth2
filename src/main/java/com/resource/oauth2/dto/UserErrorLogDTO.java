@@ -1,4 +1,4 @@
-package com.resource.oauth2.dto.userlog;
+package com.resource.oauth2.dto;
 
 public class UserErrorLogDTO {
     private String userName = "";

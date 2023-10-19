@@ -2,10 +2,10 @@ package com.resource.oauth2.service.impl;
 
 import com.resource.oauth2.dao.UserInfoDAO;
 import com.resource.oauth2.dao.UserTokenInfoDAO;
-import com.resource.oauth2.dto.token.UserTokenInfoDTO;
-import com.resource.oauth2.dto.token.GenerateUserTokenRequst;
-import com.resource.oauth2.dto.token.GenerateUserTokenResponse;
-import com.resource.oauth2.dto.user.UserInfoDTO;
+import com.resource.oauth2.dto.UserTokenInfoDTO;
+import com.resource.oauth2.model.token.GenerateUserTokenRequst;
+import com.resource.oauth2.model.token.GenerateUserTokenResponse;
+import com.resource.oauth2.dto.UserInfoDTO;
 import com.resource.oauth2.security.PropertiesPlaceholderConfiguration;
 import com.resource.oauth2.security.TokenGenerator;
 import com.resource.oauth2.service.GenerateUserTokenService;
