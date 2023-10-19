@@ -3,15 +3,12 @@ package com.resource.oauth2.service;
 import com.resource.oauth2.dao.UserInfoDAO;
 import com.resource.oauth2.dto.user.UserInfoDTO;
 import com.resource.oauth2.security.User;
-import com.resource.oauth2.type.language.ResponseResultMessageEnglish;
-import com.resource.oauth2.util.encryption.Sha256Util;
+import com.resource.oauth2.type.ResponseResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import java.util.Collections;
 
 @Service
 public class CustomUserDetailService implements UserDetailsService {
@@ -25,11 +22,11 @@ public class CustomUserDetailService implements UserDetailsService {
            userParam.setUserName(username);
            UserInfoDTO userInfo = userInfoDAO.retrieveUserInfo(userParam);
            if ( userInfo == null ) {
-               throw new UsernameNotFoundException(ResponseResultMessageEnglish.USER_NOT_FOUND.getValue());
+               throw new UsernameNotFoundException(ResponseResultMessage.USER_NOT_FOUND.getValue());
            }
            return new User( userInfo.getUserName(), userInfo.getUserPassword());
        } catch (Exception e ) {
-            throw new UsernameNotFoundException(ResponseResultMessageEnglish.USER_NOT_FOUND.getValue());
+            throw new UsernameNotFoundException(ResponseResultMessage.USER_NOT_FOUND.getValue());
        }
     }
 }

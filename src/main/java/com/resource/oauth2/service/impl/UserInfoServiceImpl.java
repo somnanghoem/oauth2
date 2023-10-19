@@ -6,7 +6,7 @@ import com.resource.oauth2.dto.user.UserInfoDTO;
 import com.resource.oauth2.security.PropertiesPlaceholderConfiguration;
 import com.resource.oauth2.service.UserInfoService;
 import com.resource.oauth2.type.UserStatusCode;
-import com.resource.oauth2.type.language.ResponseResultMessageEnglish;
+import com.resource.oauth2.type.ResponseResultMessage;
 import com.resource.oauth2.type.UserTypeCode;
 import com.resource.oauth2.util.DateUtil;
 import com.resource.oauth2.util.encryption.Sha256Util;
@@ -52,24 +52,24 @@ public class UserInfoServiceImpl implements UserInfoService {
 
     private void validationRegisterParam( RegisterUserInfoRequest param ) throws Exception {
         if(StringUtils.isEmpty(param.getUserName()) || StringUtils.isBlank(param.getUserName())) {
-            throw new Exception(ResponseResultMessageEnglish.USER_NAME_EMPTY.getValue());
+            throw new Exception(ResponseResultMessage.USER_NAME_EMPTY.getValue());
         }else if(StringUtils.isEmpty(param.getUserPassword()) || StringUtils.isBlank(param.getUserPassword())) {
-            throw new Exception(ResponseResultMessageEnglish.PASSWORD_EMPTY.getValue());
+            throw new Exception(ResponseResultMessage.PASSWORD_EMPTY.getValue());
         }else if(StringUtils.isEmpty(param.getUserType()) || StringUtils.isBlank(param.getUserType())){
-            throw new Exception(ResponseResultMessageEnglish.USER_TYPE_EMPTY.getValue());
+            throw new Exception(ResponseResultMessage.USER_TYPE_EMPTY.getValue());
         }else if ( StringUtils.isEmpty(param.getMasterUserName()) || StringUtils.isBlank(param.getMasterUserName())){
-            throw new Exception(ResponseResultMessageEnglish.MASTER_USER_NAME_EMPTY.getValue());
+            throw new Exception(ResponseResultMessage.MASTER_USER_NAME_EMPTY.getValue());
         }
         List<String> userTypes = Arrays.asList(UserTypeCode.MOBILE_USER.getValue(),UserTypeCode.WEB_USER.getValue());
         if (!userTypes.contains(param.getUserType())){
-            throw new Exception(ResponseResultMessageEnglish.INVALID_USER_TYPE.getValue());
+            throw new Exception(ResponseResultMessage.INVALID_USER_TYPE.getValue());
         }
         // Check If User Information Already Existing
         UserInfoDTO userInfoParam = new UserInfoDTO();
         userInfoParam.setUserName(param.getUserName());
         UserInfoDTO userInfo = userInfoDAO.retrieveUserInfo(userInfoParam);
         if( userInfo != null ) {
-            throw new Exception( ResponseResultMessageEnglish.USER_NAME_ALREADY_EXISTING.getValue() );
+            throw new Exception( ResponseResultMessage.USER_NAME_ALREADY_EXISTING.getValue() );
         }
     }
 

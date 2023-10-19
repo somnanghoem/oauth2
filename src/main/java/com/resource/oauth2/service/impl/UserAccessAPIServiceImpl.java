@@ -1,9 +1,9 @@
 package com.resource.oauth2.service.impl;
 
 import com.resource.oauth2.dao.UserAccessAPIDAO;
-import com.resource.oauth2.dto.accessapi.UserAccessAPIDTO;
+import com.resource.oauth2.dto.UserAccessAPIDTO;
 import com.resource.oauth2.service.UserAccessAPIService;
-import com.resource.oauth2.type.language.ResponseResultMessageEnglish;
+import com.resource.oauth2.type.ResponseResultMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,10 +28,10 @@ public class UserAccessAPIServiceImpl implements UserAccessAPIService {
                     }
                 }
             } else {
-                throw new Exception(ResponseResultMessageEnglish.DUN_ALLOW_ACCESS_API.getValue() );
+                throw new Exception(ResponseResultMessage.DUN_ALLOW_ACCESS_API.getValue() );
             }
             if ( "N".equals( accessYN ) ) {
-                throw new Exception(ResponseResultMessageEnglish.DUN_ALLOW_ACCESS_API.getValue() );
+                throw new Exception(ResponseResultMessage.DUN_ALLOW_ACCESS_API.getValue() );
             }
         } catch ( Exception e ){
             e.printStackTrace();

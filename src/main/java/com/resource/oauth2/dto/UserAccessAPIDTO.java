@@ -1,4 +1,4 @@
-package com.resource.oauth2.dto.accessapi;
+package com.resource.oauth2.dto;
 
 public class UserAccessAPIDTO {
 

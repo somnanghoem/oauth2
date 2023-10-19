@@ -1,8 +1,8 @@
-package com.resource.oauth2.type.language;
+package com.resource.oauth2.type;
 
 import com.resource.oauth2.util.ResponseHeader;
 
-public enum ResponseResultMessageEnglish {
+public enum ResponseResultMessage {
 
     SUCCESS ( "0000", "Success"),
     GENERAL_SYSTEM_ERROR( "9999", "General system error"),
@@ -19,7 +19,7 @@ public enum ResponseResultMessageEnglish {
     USER_NAME_ALREADY_EXISTING ( "0012", "Username already exists, please choose other user name"),
     DUN_ALLOW_ACCESS_API ( "0013", "User doesn't allow to access this api ${uri}");
 
-    ResponseResultMessageEnglish(String value, String description) {
+    ResponseResultMessage(String value, String description) {
         this.value = value;
         this.description = description;
     }
@@ -35,10 +35,10 @@ public enum ResponseResultMessageEnglish {
         return description;
     }
 
-    private static ResponseResultMessageEnglish getResultMessageInfo(String value ) {
-        ResponseResultMessageEnglish resultConst = null;
+    private static ResponseResultMessage getResultMessageInfo(String value ) {
+        ResponseResultMessage resultConst = null;
         if ( value != null ) {
-            for ( ResponseResultMessageEnglish searchConst : values() ) {
+            for ( ResponseResultMessage searchConst : values() ) {
                 if ( searchConst.getValue().equals( value ) ) {
                     resultConst = searchConst;
                     break;
@@ -50,7 +50,7 @@ public enum ResponseResultMessageEnglish {
 
     public static ResponseHeader resultOutputMessage(Exception e ) {
         ResponseHeader header = new ResponseHeader();
-        ResponseResultMessageEnglish resultMessageInfo = null;
+        ResponseResultMessage resultMessageInfo = null;
         if ( e.getMessage().length() > 4 ) {
             resultMessageInfo = getResultMessageInfo( "9999" );
         } else {

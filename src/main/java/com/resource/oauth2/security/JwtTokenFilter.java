@@ -5,7 +5,7 @@ import com.resource.oauth2.dto.token.UserTokenInfoDTO;
 import com.resource.oauth2.service.CustomUserDetailService;
 import com.resource.oauth2.service.ResponseResultMessageService;
 import com.resource.oauth2.service.UserAccessAPIService;
-import com.resource.oauth2.type.language.ResponseResultMessageEnglish;
+import com.resource.oauth2.type.ResponseResultMessage;
 import com.resource.oauth2.util.*;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -20,7 +20,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -54,18 +53,18 @@ public class JwtTokenFilter extends OncePerRequestFilter {
                userTokenParam.setToken(token);
                UserTokenInfoDTO userTokenInfo = userTokenInfoDAO.retrieveUserTokenInfoByToken(userTokenParam);
                if ( userTokenInfo == null ) {
-                throw new Exception( ResponseResultMessageEnglish.TOKEN_NOT_FOUND.getValue());
+                throw new Exception( ResponseResultMessage.TOKEN_NOT_FOUND.getValue());
                } else {
                    userName = userTokenInfo.getUserName();
                    SimpleDateFormat sdDate = new SimpleDateFormat(DateUtil.DATETIME);
                    Date expiredDateTime = sdDate.parse( userTokenInfo.getExpiredDate().concat(userTokenInfo.getExpiredTime()) ) ;
                    Date currentDateTime = sdDate.parse(DateUtil.getCurrentFormatDate(DateUtil.DATETIME));
                    if (( expiredDateTime.compareTo(currentDateTime) <=0)) {
-                       throw new Exception( ResponseResultMessageEnglish.TOKEN_EXPIRED.getValue());
+                       throw new Exception( ResponseResultMessage.TOKEN_EXPIRED.getValue());
                    }
                }
            } catch ( Exception e ) {
-               ResponseHeader header = ResponseResultMessageEnglish.resultOutputMessage(e);
+               ResponseHeader header = ResponseResultMessage.resultOutputMessage(e);
                RenderUtil.renderJson( response, new ResponseData<>( header, new Object() ) );
                return;
            }

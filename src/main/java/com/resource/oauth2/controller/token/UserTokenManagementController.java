@@ -5,7 +5,7 @@ import com.resource.oauth2.dto.token.GenerateUserTokenRequst;
 import com.resource.oauth2.dto.token.GenerateUserTokenResponse;
 import com.resource.oauth2.service.GenerateUserTokenService;
 import com.resource.oauth2.service.ResponseResultMessageService;
-import com.resource.oauth2.type.language.ResponseResultMessageEnglish;
+import com.resource.oauth2.type.ResponseResultMessage;
 import com.resource.oauth2.util.RequestData;
 import com.resource.oauth2.util.ResponseData;
 import com.resource.oauth2.util.ResponseHeader;
@@ -27,7 +27,7 @@ public class UserTokenManagementController {
     @PostMapping(value = "")
     public ResponseEntity generateUserToken(@RequestBody RequestData<GenerateUserTokenRequst> requestData ) {
 
-        ResponseHeader header = new ResponseHeader("Y", ResponseResultMessageEnglish.SUCCESS.getValue(), ResponseResultMessageEnglish.SUCCESS.getDescription() );
+        ResponseHeader header = new ResponseHeader("Y", ResponseResultMessage.SUCCESS.getValue(), ResponseResultMessage.SUCCESS.getDescription() );
         GenerateUserTokenResponse body = new GenerateUserTokenResponse();
         try {
             GenerateUserTokenRequst generateUserTokenRequst = requestData.getBody();

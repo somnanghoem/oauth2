@@ -65,3 +65,17 @@ create table user_error_log(
 	update_by				varchar(50) 	not null, -- user that update
 	CONSTRAINT PK_USER_ACCESS_API PRIMARY KEY (USER_NAME,USER_TYPE,URI)
 )
+
+--------------------Error Message Info--------------------------
+CREATE TABLE ERROR_CODE_INFO(
+	error_code 				varchar(4)		not null ,
+	error_language 			varchar(10)		not null ,
+	error_description		varchar(255)	not null default ''::character varying,
+ 	create_by				varchar(50)		not null, -- user that create
+	register_date 			varchar(8) 		not null default ''::character varying,
+	register_time 			varchar(9) 		not null default ''::character varying,
+	update_date 			varchar(8) 		not null default ''::character varying,
+	update_time 			varchar(9) 		not null default ''::character varying,
+	update_by				varchar(50) 	not null, -- user that update
+	constraint pk_error_code_info primary key (error_code,error_language)
+)

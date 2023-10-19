@@ -1,7 +1,8 @@
 package com.resource.oauth2.service;
 
-import com.resource.oauth2.type.language.ResponseResultMessageEnglish;
-import com.resource.oauth2.type.language.ResponseResultMessageKhmer;
+import com.resource.oauth2.dao.ErrorMessageDAO;
+import com.resource.oauth2.dto.ErrorMessageDTO;
+import com.resource.oauth2.type.ResponseResultMessage;
 import com.resource.oauth2.util.RequestHeader;
 import com.resource.oauth2.util.ResponseHeader;
 import com.resource.oauth2.util.ThreadLocalUtil;
@@ -13,19 +14,30 @@ import org.springframework.stereotype.Service;
 public class ResponseResultMessageService {
 
     @Autowired
+    ErrorMessageDAO errorMessageDAO;
+    @Autowired
     UserLogService userLogService;
     public ResponseHeader resultLanguageMessage(RequestHeader header, Exception e ) {
-        ResponseHeader responseHeader = new ResponseHeader();
-        if ( header !=null ) {
-            if ( header.getLanguage().equals("kh")){
-                responseHeader = ResponseResultMessageKhmer.resultOutputMessage(e);
-            } else {
-                responseHeader = ResponseResultMessageEnglish.resultOutputMessage(e);
-            }
+
+        ResponseHeader responseHeader = ResponseResultMessage.resultOutputMessage(e);
+        ErrorMessageDTO param = new ErrorMessageDTO();
+        param.setErrorCode( responseHeader.getResultCode() );
+        if ( ( header !=null )
+                && ( "kh".equals( header.getLanguage()) ) ) {
+            param.setErrorLanguage("kh");
         } else {
-            responseHeader = ResponseResultMessageEnglish.resultOutputMessage(e);
+            param.setErrorLanguage("en");
         }
-        // Replace Error Parameter
+        ErrorMessageDTO errorMessageInfo = errorMessageDAO.retrieveErrorMessageInfo( param );
+        if ( errorMessageInfo !=  null ) {
+            responseHeader.setSuccessYN("N");
+            responseHeader.setResultCode( errorMessageInfo.getErrorCode() );
+            responseHeader.setResultMessage( errorMessageInfo.getErrorDescription() );
+        }
+
+        /************************************************
+         * Replace Error Parameter in case has parameter
+         ************************************************/
         try {
            String errorParam =  ThreadLocalUtil.getErrorMessage();
            String errorName = ThreadLocalUtil.getErrorName();
@@ -45,7 +57,7 @@ public class ResponseResultMessageService {
             e.printStackTrace();
         }
         // Register Error Log
-       // userLogService.registerUserErrorLogInfo(header,responseHeader,e);
+        userLogService.registerUserErrorLogInfo(header,responseHeader,e);
         return  responseHeader;
     }
 }
