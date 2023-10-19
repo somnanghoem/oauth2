@@ -34,4 +34,13 @@ public class ResponseHeader {
     public void setResultMessage(String resultMessage) {
         this.resultMessage = resultMessage;
     }
+
+    @Override
+    public String toString() {
+        return "ResponseHeader{" +
+                "successYN='" + successYN + '\'' +
+                ", resultCode='" + resultCode + '\'' +
+                ", resultMessage='" + resultMessage + '\'' +
+                '}';
+    }
 }

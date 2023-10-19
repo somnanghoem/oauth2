@@ -15,7 +15,8 @@ public enum ResponseResultMessageKhmer {
     USER_TYPE_EMPTY ( "0009", "ប្រភេទអ្នកប្រើប្រាស់មិនអាចទទេបានទេ។"),
     INVALID_USER_TYPE( "0010", "ប្រភេទអ្នកប្រើមិនត្រឹមត្រូវ។"),
     MASTER_USER_NAME_EMPTY ( "0011", "ឈ្មោះអ្នកប្រើមេមិនអាចទទេបានទេ។"),
-    USER_NAME_ALREADY_EXISTING ( "0012", "ឈ្មោះអ្នកប្រើប្រាស់មានរួចហើយ សូមជ្រើសរើសឈ្មោះអ្នកប្រើប្រាស់ផ្សេងទៀត។");
+    USER_NAME_ALREADY_EXISTING ( "0012", "ឈ្មោះអ្នកប្រើប្រាស់មានរួចហើយ សូមជ្រើសរើសឈ្មោះអ្នកប្រើប្រាស់ផ្សេងទៀត។"),
+    DUN_ALLOW_ACCESS_API ( "0013", "User doesn't allow to access this api ${uri}");
 
     ResponseResultMessageKhmer(String value, String description) {
         this.value = value;

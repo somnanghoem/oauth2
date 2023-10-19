@@ -1,51 +1,67 @@
 ------ USER TOKEN INFO  ---------
-CREATE TABLE OUATH2_TOKEN (
-  USERNAME VARCHAR(50)	 NOT NULL DEFAULT '',
-  TOKEN VARCHAR(1000)	 NOT NULL DEFAULT '',
-  issuedDate			 VARCHAR(8) NOT NULL DEFAULT '',
-  issuedTime			 VARCHAR(6) NOT NULL DEFAULT '',
-  expiredDate			 VARCHAR(8) NOT NULL DEFAULT '',
-  expiredTime 			 VARCHAR(6) NOT NULL DEFAULT '',
-  remoteIP				 VARCHAR(255) NOT NULL DEFAULT '',
-  STATUS				 VARCHAR(1) NOT NULL DEFAULT '',
-  USERTYPE				 VARCHAR(2) DEFAULT '',
-  PRIMARY KEY ( USERNAME )
+create table ouath2_token (
+  username varchar(50)	 not null default '',
+  token varchar(1000)	 not null default '',
+  issueddate			 varchar(8) not null default '',
+  issuedtime			 varchar(6) not null default '',
+  expireddate			 varchar(8) not null default '',
+  expiredtime 			 varchar(6) not null default '',
+  remoteip				 varchar(255) not null default '',
+  status				 varchar(1) not null default '',
+  usertype				 varchar(2) default '',
+  primary key ( username )
 )
 
 ------- USER INFO ----------
-CREATE TABLE USER_INFO(
-	USER_NAME 				VARCHAR(20) 	NOT NULL, -- USER NAME FOR LOGIN
-	USER_TYPE 				VARCHAR(2) 		NOT NULL DEFAULT ''::CHARACTER VARYING, -- 01: MOBILE, 02: WEB
-	USER_STATUS 			VARCHAR(2) 		NOT NULL DEFAULT ''::CHARACTER VARYING, -- 00: NORMAL, 01: DELETED, 99: DELETED
-	USER_PASSWORD 			VARCHAR( 255) 	NOT NULL DEFAULT ''::CHARACTER VARYING,
-	PASSWORD_CHANGE_DATE 	VARCHAR(8) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-	PASSWORD_CHANGE_TIME 	VARCHAR(9) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-	FIRST_LOGIN_DATE 		VARCHAR(8) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-	FIRST_LOGIN_TIME 		VARCHAR(9) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-	LAST_LOGIN_DATE 		VARCHAR(8) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-	LAST_LOGIN_TIME 		VARCHAR(9) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-	MASTER_USER_NAME 		VARCHAR(20) 	NOT NULL DEFAULT ''::CHARACTER VARYING,
-	EMPLOYEE_ID				VARCHAR(20) 	NOT NULL DEFAULT ''::CHARACTER VARYING, -- RESERVE COLUMN
-	CREATE_BY				VARCHAR(50)		NOT NULL, -- USER THAT CREATE
-	REGISTER_DATE 			VARCHAR(8) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-	REGISTER_TIME 			VARCHAR(9) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-	UPDATE_DATE 			VARCHAR(8) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-	UPDATE_TIME 			VARCHAR(9) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-	UPDATE_BY				VARCHAR(50) 	NOT NULL, -- USER THAT update
-	CONSTRAINT PK_USER_INFO PRIMARY KEY (USER_NAME)
+create table user_info(
+	user_name 				varchar(20) 	not null, -- user name for login
+	user_type 				varchar(2) 		not null default ''::character varying, -- 01: mobile, 02: web
+	user_status 			varchar(2) 		not null default ''::character varying, -- 00: normal, 01: deleted, 99: deleted
+	user_password 			varchar( 255) 	not null default ''::character varying,
+	password_change_date 	varchar(8) 		not null default ''::character varying,
+	password_change_time 	varchar(9) 		not null default ''::character varying,
+	first_login_date 		varchar(8) 		not null default ''::character varying,
+	first_login_time 		varchar(9) 		not null default ''::character varying,
+	last_login_date 		varchar(8) 		not null default ''::character varying,
+	last_login_time 		varchar(9) 		not null default ''::character varying,
+	master_user_name 		varchar(20) 	not null default ''::character varying,
+	employee_id				varchar(20) 	not null default ''::character varying, -- reserve column
+	create_by				varchar(50)		not null, -- user that create
+	register_date 			varchar(8) 		not null default ''::character varying,
+	register_time 			varchar(9) 		not null default ''::character varying,
+	update_date 			varchar(8) 		not null default ''::character varying,
+	update_time 			varchar(9) 		not null default ''::character varying,
+	update_by				varchar(50) 	not null, -- user that update
+	constraint pk_user_info primary key (user_name)
 )
 
 --------------------User Request Error Log --------------------------
-CREATE TABLE USER_ERROR_LOG(
-		USER_NAME 			VARCHAR(20) 	NOT NULL DEFAULT ''::CHARACTER VARYING,
-		USER_TYPE 			VARCHAR(2) 		NOT NULL DEFAULT ''::CHARACTER VARYING, -- 01: MOBILE, 02: WEB
-		REGISTER_DATE 		VARCHAR(8) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-		REGISTER_TIME 		VARCHAR(9) 		NOT NULL DEFAULT ''::CHARACTER VARYING,
-		URL					VARCHAR(255) 	NOT NULL DEFAULT ''::CHARACTER VARYING,
-		IP_ADDRESS 			VARCHAR(50) 	NOT NULL DEFAULT ''::CHARACTER VARYING,
-		DEVICE_NAME 		VARCHAR(255) 	NOT NULL DEFAULT ''::CHARACTER VARYING,
-		ERROR_CODE 			VARCHAR(255) 	NOT NULL DEFAULT ''::CHARACTER VARYING,
-		ERROR_DESCRIPTION 	VARCHAR(1000) 	NOT NULL DEFAULT ''::CHARACTER VARYING,
-		ERROR_CAUSE 		TEXT			NOT NULL DEFAULT ''::CHARACTER varying,
-		primary key( USER_NAME,USER_TYPE,REGISTER_DATE,REGISTER_TIME)
+create table user_error_log(
+		user_name 			varchar(20) 	not null default ''::character varying,
+		user_type 			varchar(2) 		not null default ''::character varying, -- 01: mobile, 02: web
+		register_date 		varchar(8) 		not null default ''::character varying,
+		register_time 		varchar(9) 		not null default ''::character varying,
+		url					varchar(255) 	not null default ''::character varying,
+		ip_address 			varchar(50) 	not null default ''::character varying,
+		device_name 		varchar(255) 	not null default ''::character varying,
+		error_code 			varchar(255) 	not null default ''::character varying,
+		error_description 	varchar(1000) 	not null default ''::character varying,
+		error_cause 		text			not null default ''::character varying,
+		primary key( user_name,user_type,register_date,register_time)
+)
+
+--------------------User access API --------------------------
+ CREATE TABLE USER_ACCESS_API(
+	user_name 				varchar(20) 	not null, -- user name for login
+	user_type 				varchar(2) 		not null default ''::character varying, -- 01: mobile, 02: web
+	uri 					varchar(100) 	not null default ''::character varying,
+ 	uri_description			varchar(255) 	not null default ''::character varying,
+ 	access_yn				varchar(1) 		not null default ''::character varying,
+ 	create_by				varchar(50)		not null, -- user that create
+	register_date 			varchar(8) 		not null default ''::character varying,
+	register_time 			varchar(9) 		not null default ''::character varying,
+	update_date 			varchar(8) 		not null default ''::character varying,
+	update_time 			varchar(9) 		not null default ''::character varying,
+	update_by				varchar(50) 	not null, -- user that update
+	CONSTRAINT PK_USER_ACCESS_API PRIMARY KEY (USER_NAME,USER_TYPE,URI)
 )

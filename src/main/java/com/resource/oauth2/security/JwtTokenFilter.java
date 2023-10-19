@@ -3,11 +3,10 @@ package com.resource.oauth2.security;
 import com.resource.oauth2.dao.UserTokenInfoDAO;
 import com.resource.oauth2.dto.token.UserTokenInfoDTO;
 import com.resource.oauth2.service.CustomUserDetailService;
+import com.resource.oauth2.service.ResponseResultMessageService;
+import com.resource.oauth2.service.UserAccessAPIService;
 import com.resource.oauth2.type.language.ResponseResultMessageEnglish;
-import com.resource.oauth2.util.DateUtil;
-import com.resource.oauth2.util.RenderUtil;
-import com.resource.oauth2.util.ResponseData;
-import com.resource.oauth2.util.ResponseHeader;
+import com.resource.oauth2.util.*;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -35,7 +34,11 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     @Autowired
     UserTokenInfoDAO userTokenInfoDAO;
     @Autowired
+    UserAccessAPIService userAccessAPIService;
+    @Autowired
     CustomUserDetailService customUserDetailService;
+    @Autowired
+    ResponseResultMessageService responseResultMessageService;
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
@@ -69,6 +72,22 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         }
         // In case authentication request
         if ( StringUtils.isNoneEmpty( userName ) && SecurityContextHolder.getContext().getAuthentication() == null) {
+            /********************************************************************************
+             *                      Validate User Access API
+             *********************************************************************************/
+            String baseURI = "";
+            try {
+                String requestURI = request.getRequestURI();
+                String[] slit = requestURI.split("/");
+                baseURI = "/" + slit[slit.length - 2].concat("/" + slit[slit.length - 1]);
+                userAccessAPIService.validateUserAccessAPI( userName, baseURI );
+            } catch ( Exception e ) {
+                ThreadLocalUtil.setErrorName("${uri}");
+                ThreadLocalUtil.setErrorMessage( baseURI );
+                ResponseHeader header = responseResultMessageService.resultLanguageMessage( new RequestHeader(), e );
+                RenderUtil.renderJson( response, new ResponseData<>( header, new Object() ) );
+                return;
+            }
             UserDetails userDetails = this.customUserDetailService.loadUserByUsername( userName );
             SecurityContext context = SecurityContextHolder.createEmptyContext();
             Authentication authentication = new UsernamePasswordAuthenticationToken(userDetails, userDetails.getPassword(), userDetails.getAuthorities());
